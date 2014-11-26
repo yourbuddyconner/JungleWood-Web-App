@@ -55,7 +55,7 @@
     </body>
   <toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
   <!-- Libs -->
-  <script src="js/angular.min.js"></script>
+  <script src="js/angular.js"></script>
   <script src="js/toaster.js"></script>
   <script src="app/app.js"></script>
   <script src="app/data.js"></script>
