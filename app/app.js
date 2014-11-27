@@ -1,55 +1,47 @@
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster']);
- 
-app.config(['$routeProvider',
-  function ($routeProvider) {
-        $routeProvider.
-        when('/login', {
-            title: 'Login',
-            templateUrl: 'partials/login.html',
-            controller: 'authCtrl'
-        })
-            .when('/logout', {
-                title: 'Logout',
-                templateUrl: 'partials/login.html',
-                controller: 'logoutCtrl'
-            })
-            .when('/signup', {
-                title: 'Signup',
-                templateUrl: 'partials/signup.html',
-                controller: 'authCtrl'
-            })
-            .when('/dashboard', {
-                title: 'Dashboard',
-                templateUrl: 'partials/dashboard.html',
-                controller: 'authCtrl'
-            })
-            .when('/', {
-                title: 'Login',
-                templateUrl: 'partials/login.html',
-                controller: 'authCtrl',
-                role: '0'
-            })
-            .otherwise({
-                redirectTo: '/login'
-            });
-  }])
-    .run(function ($rootScope, $location, Data) {
-        $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            $rootScope.authenticated = false;
-            Data.get('session').then(function (results) {
-                if (results.uid) {
-                    $rootScope.authenticated = true;
-                    $rootScope.uid = results.uid;
-                    $rootScope.name = results.name;
-                    $rootScope.email = results.email;
+var app = angular.module('JungleWood', ["JungleWood.controllers", "JungleWood.services", "JungleWood.directives", "ui.router", "toaster", "ngAnimate"]);
+
+app.config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise("/");
+  $stateProvider
+    .state('login', {
+      url: "/login",
+      templateUrl: "views/login.html",
+      controller: "authCtrl"
+    })
+    .state('logout', {
+      url: "/logout",
+      templateUrl: "views/logout.html",
+      controller: "authCtrl"
+    })
+    .state('signup', {
+      url: "/signup",
+      templateUrl: "views/signup.html",
+      controller: "authCtrl"
+    })
+    .state('home', {
+      url: "/",
+      templateUrl: "views/home.html",
+      controller: "homeCtrl"
+    });
+});
+
+app.run(function ($rootScope, $location, Data) {
+    $rootScope.$on("$routeChangeStart", function (event, next, current) {
+        $rootScope.authenticated = false;
+        Data.get('session').then(function (results) {
+            if (results.uid) {
+                $rootScope.authenticated = true;
+                $rootScope.uid = results.uid;
+                $rootScope.name = results.name;
+                $rootScope.email = results.email;
+            } else {
+                var nextUrl = next.$$route.originalPath;
+                if (nextUrl == '/signup' || nextUrl == '/login') {
+
                 } else {
-                    var nextUrl = next.$$route.originalPath;
-                    if (nextUrl == '/signup' || nextUrl == '/login') {
- 
-                    } else {
-                        $location.path("/login");
-                    }
+                    $location.path("/login");
                 }
-            });
+            }
         });
     });
+});

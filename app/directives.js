@@ -1,10 +1,12 @@
-app.directive('focus', function() {
+angular.module('JungleWood.directives', [])
+
+.directive('focus', function() {
     return function(scope, element) {
         element[0].focus();
-    }      
-});
+    };
+})
 
-app.directive('passwordMatch', [function () {
+.directive('passwordMatch', [function () {
     return {
         restrict: 'A',
         scope:true,
@@ -13,7 +15,7 @@ app.directive('passwordMatch', [function () {
             var checker = function () {
  
                 //get the value of the first password
-                var e1 = scope.$eval(attrs.ngModel); 
+                var e1 = scope.$eval(attrs.ngModel);
  
                 //get the value of the other password  
                 var e2 = scope.$eval(attrs.passwordMatch);
