@@ -53,4 +53,8 @@ angular.module("JungleWood.controllers", ["ui.router"])
 
 .controller('navCtrl', function($scope, $rootScope){
     //TODO
+})
+
+.controller('mapCtrl', function($scope){
+    //TODO
 });

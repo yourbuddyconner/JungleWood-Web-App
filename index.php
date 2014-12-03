@@ -23,7 +23,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-animate.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
     <script src="js/toaster.js"></script>
+    <script src="js/blur.js"></script>
+    <script src="js/utility.js"></script>
     <script src="app/services.js"></script>
     <script src="app/directives.js"></script>
     <script src="app/controllers.js"></script>
@@ -41,25 +44,36 @@
       </div>
       <div class="row padding-top">
         <div class="col-md-8 col-md-offset-2 text-center">
-          <nav role="navigation" ng-controller="navCtrl">  
+          <nav role="navigation">  
               <ul class="list-inline">
-                <li>
-                  <a ui-sref="login" ng-show="!authenticated"> 
+                <li ng-hide="authenticated">
+                  <a ui-sref="login"> 
                     <i class="glyphicon glyphicon-log-in"></i>
                     Log In
-                    {{!authenticated}}
                   </a>
                 </li>
-                <li>
-                  <a ui-sref="signup" ng-show="!authenticated"> 
+                <li ng-hide="authenticated">
+                  <a ui-sref="signup"> 
                     <i class="glyphicon glyphicon-cog"></i>
                     Register!
                   </a>
                 </li>
-                <li>
-                  <a ui-sref="logout" ng-show="authenticated">
+                <li ng-hide="!authenticated">
+                  <a ui-sref="logout">
                     <i class="glyphicon glyphicon-log-out"></i>
                     Logout
+                  </a>
+                </li>
+                <li ng-hide="!authenticated">
+                  <a ui-sref="dashboard">
+                    <i class="glyphicon glyphicon-user"></i>
+                    User Dashboard
+                  </a>
+                </li>
+                <li ng-hide="!authenticated">
+                  <a ui-sref="map">
+                    <i class="glyphicon glyphicon-map-marker"></i>
+                    Server Map
                   </a>
                 </li>
 <!--                 <li>
@@ -87,7 +101,7 @@
       </div>
     </div>
     <div class="container" style="margin-top:75px;">
-      <div ui-view></div>
+      <div class="blur" ui-view></div>
     </div>
     </body>
   <toaster-container toaster-options="{'time-out': 3000}"></toaster-container>

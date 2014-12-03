@@ -21,6 +21,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "views/dashboard.html",
       controller: "dashCtrl"
     })
+
+    .state('map', {
+      url: "/map",
+      templateUrl: "views/map.html",
+      controller: "mapCtrl",
+    })
     .state('home', {
       url: "/",
       templateUrl: "views/home.html",
