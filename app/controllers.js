@@ -33,7 +33,7 @@ angular.module("JungleWood.controllers", ["ui.router"])
     };
 })
 
-.controller('dashCtrl', function($scope){
+.controller('dashCtrl', function($scope, $rootScope){
     $scope.logout = function () {
         Data.get('logout').then(function (results) {
             if(results){
@@ -49,4 +49,8 @@ angular.module("JungleWood.controllers", ["ui.router"])
 
 .controller('homeCtrl', function($scope){
     // TODO
+})
+
+.controller('navCtrl', function($scope, $rootScope){
+    //TODO
 });

@@ -3,11 +3,11 @@ body {
 }
 
 .padding-top {
-	padding-top: 20px;
+	padding-top: 10px;
 }
 
 .more-padding-top {
-	padding-top: 40px;
+	padding-top: 20px;
 }
 .motto, .info-text{
     font-size: 28px;
@@ -42,11 +42,11 @@ nav ul li a {
 	font-size: 20px;
 	color: #FFFFFF;
     border-color: #FFFFFF;
-    opacity: 0.8;
+    opacity: 1;
 }
 nav ul li a:hover {
 	color: #FFFFFF;
-    opacity: 1;
+    opacity: 0.8;
 }
 
 nav ul li a:active {

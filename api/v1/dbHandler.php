@@ -50,16 +50,20 @@ public function getSession(){
         session_start();
     }
     $sess = array();
-    if(isset($_SESSION['uid']))
+    if(isset($_SESSION['id']))
     {
         $sess["id"] = $_SESSION['id'];
-        $sess["name"] = $_SESSION['name'];
+        $sess["first_name"] = $_SESSION['first_name'];
+        $sess["last_name"] = $_SESSION['last_name'];
+        $sess["username"] = $_SESSION['username'];
         $sess["email"] = $_SESSION['email'];
     }
     else
     {
         $sess["id"] = '';
-        $sess["name"] = 'Guest';
+        $sess["first_name"] = 'Guest';
+        $sess["last_name"] = '';
+        $sess["username"] = '';
         $sess["email"] = '';
     }
     return $sess;
@@ -68,10 +72,12 @@ public function destroySession(){
     if (!isset($_SESSION)) {
     session_start();
     }
-    if(isSet($_SESSION['uid']))
+    if(isSet($_SESSION['id']))
     {
-        unset($_SESSION['uid']);
-        unset($_SESSION['name']);
+        unset($_SESSION['id']);
+        unset($_SESSION['first_name']);
+        unset($_SESSION['last_name']);
+        unset($_SESSION['username']);
         unset($_SESSION['email']);
         $info='info';
         if(isSet($_COOKIE[$info]))

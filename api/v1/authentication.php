@@ -26,20 +26,27 @@ $app->post('/login', function() use ($app) {
     //if there's a user in the session
     if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
-        $response['status'] = "success";
-        $response['message'] = 'Logged in successfully.';
-        $response['id'] = $user['id'];
-        $response['email'] = $user['email'];
-        $response['first_name'] = $user['first_name'];
-        $response['last_name'] = $user['last_name'];
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        $_SESSION['id'] = $user['id'];
-        $_SESSION['email'] = $email;
-        $_SESSION['first_name'] = $user['first_name'];
-        $_SESSION['last_name'] = $user['last_name'];
+            //begin the session
+            if (!isset($_SESSION)) {
+                session_start();
+            }
+            //build the session
+            $_SESSION['id'] = $user['id'];
+            $_SESSION['email'] = $email;
+            $_SESSION['first_name'] = $user['first_name'];
+            $_SESSION['last_name'] = $user['last_name'];
+            $_SESSION['username'] = $user['username'];
+
+            //form the response
+            $response['status'] = "success";
+            $response['message'] = 'Logged in successfully.';
+            $response['id'] = $user['id'];
+            $response['email'] = $user['email'];
+            $response['first_name'] = $user['first_name'];
+            $response['last_name'] = $user['last_name'];
+            $response['username'] = $user['username'];
         } else {
+            //errored out!
             $response['status'] = "error";
             $response['message'] = 'Login failed. Incorrect credentials';
         }

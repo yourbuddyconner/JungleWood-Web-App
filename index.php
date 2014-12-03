@@ -4,7 +4,7 @@
   <head>
     <title>Welcome to JungleWood</title>
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
     <!-- <link href="css/custom.css" rel="stylesheet"> -->
     <link href="css/toaster.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet" />    
@@ -32,7 +32,7 @@
 
   <body ng-app="JungleWood" style="background-image: url('images/default.jpg')">
     <div class="container header">
-      <div class="row padding-top">
+      <div class="row more-padding-top">
         <div class="col-md-12 text-center">
           <a href="#/home">
             <img src="/images/logo.png" alt="">
@@ -41,21 +41,28 @@
       </div>
       <div class="row padding-top">
         <div class="col-md-8 col-md-offset-2 text-center">
-          <nav role="navigation">  
+          <nav role="navigation" ng-controller="navCtrl">  
               <ul class="list-inline">
                 <li>
-                  <a ui-sref="login"> 
-                    <i class="fa fa-sign-in"></i>
+                  <a ui-sref="login" ng-show="!authenticated"> 
+                    <i class="glyphicon glyphicon-log-in"></i>
                     Log In
+                    {{!authenticated}}
                   </a>
                 </li>
                 <li>
-                  <a ui-sref="signup"> 
-                    <i class="fa fa-cogs"></i>
+                  <a ui-sref="signup" ng-show="!authenticated"> 
+                    <i class="glyphicon glyphicon-cog"></i>
                     Register!
                   </a>
                 </li>
                 <li>
+                  <a ui-sref="logout" ng-show="authenticated">
+                    <i class="glyphicon glyphicon-log-out"></i>
+                    Logout
+                  </a>
+                </li>
+<!--                 <li>
                   <a href="#"> 
                     <i class="fa fa-facebook-square"></i>
                     Share
@@ -66,11 +73,11 @@
                     <i class="fa fa-twitter"></i>
                     Tweet
                   </a>
-                </li>
+                </li> -->
                 <li>
                   <a href="#"> 
-                    <i class="fa fa-envelope-o"></i>
-                    Email
+                    <i class="glyphicon glyphicon-edit"></i>
+                    Contact
                   </a>
                 </li>
               </ul>

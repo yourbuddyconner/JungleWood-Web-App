@@ -9,9 +9,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
       controller: "authCtrl"
     })
     .state('logout', {
-      url: "/logout",
-      templateUrl: "views/logout.html",
-      controller: "authCtrl"
+      url: "/logout"
     })
     .state('signup', {
       url: "/signup",
@@ -30,24 +28,35 @@ app.config(function($stateProvider, $urlRouterProvider) {
     });
 });
 
+//ensures that the user is always logged in
 app.run(function ($rootScope, $state, Data) {
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
         $rootScope.authenticated = false;
+        var nextUrl = toState.name;
+        //check if logging out
+        if (nextUrl == 'logout') {
+          //preform logout
+          Data.get('logout').then(function (results) {
+            Data.toast(results);
+            $state.go('login');
+          });
+        }
         Data.get('session').then(function (results) {
             if (results.id) {
-                alert(results);
-                $rootScope.authenticated = true;
-                $rootScope.id = results.uid;
-                $rootScope.name = results.name;
-                $rootScope.email = results.email;
-            } else {
-                var nextUrl = toState.name;
-                if (nextUrl == 'signup' || nextUrl == 'login') {
-
-                } else {
-                  event.preventDefault();
-                  $state.go("login");
-                }
+              //set the PHP session to rootScope
+              $rootScope.authenticated = true;
+              $rootScope.id = results.id;
+              $rootScope.first_name = results.first_name;
+              $rootScope.last_name = results.last_name;
+              $rootScope.username = results.username;
+              $rootScope.email = results.email;
+            } 
+            else {
+              if (nextUrl == 'signup' || nextUrl == 'login') {} 
+              else {
+                event.preventDefault();
+                $state.go("login");
+              }
             }
         });
     });
