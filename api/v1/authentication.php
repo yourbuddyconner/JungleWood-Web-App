@@ -4,7 +4,9 @@ $app->get('/session', function() {
     $session = $db->getSession();
     $response["id"] = $session['id'];
     $response["email"] = $session['email'];
-    $response["name"] = $session['name'];
+    $response["first_name"] = $session['first_name'];
+    $response["last_name"] = $session['last_name'];
+    $response["username"] = $session['username'];
     echoResponse(200, $session);
 });
 
@@ -26,7 +28,6 @@ $app->post('/login', function() use ($app) {
         if(passwordHash::check_password($user['password'],$password)){
         $response['status'] = "success";
         $response['message'] = 'Logged in successfully.';
-        $response['name'] = $user['name'];
         $response['id'] = $user['id'];
         $response['email'] = $user['email'];
         $response['first_name'] = $user['first_name'];
@@ -36,7 +37,8 @@ $app->post('/login', function() use ($app) {
         }
         $_SESSION['id'] = $user['id'];
         $_SESSION['email'] = $email;
-        $_SESSION['name'] = $user['name'];
+        $_SESSION['first_name'] = $user['first_name'];
+        $_SESSION['last_name'] = $user['last_name'];
         } else {
             $response['status'] = "error";
             $response['message'] = 'Login failed. Incorrect credentials';

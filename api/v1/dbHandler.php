@@ -52,13 +52,13 @@ public function getSession(){
     $sess = array();
     if(isset($_SESSION['uid']))
     {
-        $sess["uid"] = $_SESSION['uid'];
+        $sess["id"] = $_SESSION['id'];
         $sess["name"] = $_SESSION['name'];
         $sess["email"] = $_SESSION['email'];
     }
     else
     {
-        $sess["uid"] = '';
+        $sess["id"] = '';
         $sess["name"] = 'Guest';
         $sess["email"] = '';
     }
