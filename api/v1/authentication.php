@@ -2,7 +2,7 @@
 $app->get('/session', function() {
     $db = new DbHandler();
     $session = $db->getSession();
-    $response["uid"] = $session['uid'];
+    $response["id"] = $session['id'];
     $response["email"] = $session['email'];
     $response["name"] = $session['name'];
     echoResponse(200, $session);
@@ -10,31 +10,38 @@ $app->get('/session', function() {
 
 $app->post('/login', function() use ($app) {
     require_once 'passwordHash.php';
+    //grab the response
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('email', 'password'),$r->customer);
-    $response = array();
+    //validate
+    verifyRequiredParams(array('email', 'password'),$r->user);
     $db = new DbHandler();
-    $password = $r->customer->password;
-    $email = $r->customer->email;
-    $user = $db->getOneRecord("select uid,name,password,email,created from customers_auth where phone='$email' or email='$email'");
+
+    //build response
+    $response = array();
+    $password = $r->user->password;
+    $email = $r->user->email;
+    $user = $db->getOneRecord("select id,first_name,last_name,username,password,email from web_users where email='$email'");
+    //if there's a user in the session
     if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
         $response['status'] = "success";
         $response['message'] = 'Logged in successfully.';
         $response['name'] = $user['name'];
-        $response['uid'] = $user['uid'];
+        $response['id'] = $user['id'];
         $response['email'] = $user['email'];
-        $response['createdAt'] = $user['created'];
+        $response['first_name'] = $user['first_name'];
+        $response['last_name'] = $user['last_name'];
         if (!isset($_SESSION)) {
             session_start();
         }
-        $_SESSION['uid'] = $user['uid'];
+        $_SESSION['id'] = $user['id'];
         $_SESSION['email'] = $email;
         $_SESSION['name'] = $user['name'];
         } else {
             $response['status'] = "error";
             $response['message'] = 'Login failed. Incorrect credentials';
         }
+    //no user = no access
     }else {
             $response['status'] = "error";
             $response['message'] = 'No such user is registered';
@@ -42,43 +49,56 @@ $app->post('/login', function() use ($app) {
     echoResponse(200, $response);
 });
 $app->post('/signUp', function() use ($app) {
-    $response = array();
+    //grab the response
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('email', 'name', 'password'),$r->customer);
+    //verify everything's there
+    verifyRequiredParams(array('first_name', 'last_name', 'username','email', 'password'),$r->user);
     require_once 'passwordHash.php';
     $db = new DbHandler();
-    $phone = $r->customer->phone;
-    $name = $r->customer->name;
-    $email = $r->customer->email;
-    $address = $r->customer->address;
-    $password = $r->customer->password;
-    $isUserExists = $db->getOneRecord("select 1 from customers_auth where phone='$phone' or email='$email'");
+
+    //prepare response
+    $response = array();
+    $first_name = $r->user->first_name;
+    $last_name = $r->user->last_name;
+    $username = $r->user->username;
+    $email = $r->user->email;
+    $password = $r->user->password;
+    $isUserExists = $db->getOneRecord("select 1 from web_users where email='$email' or username='$username'");
+    //if the user doesn't already exist
     if(!$isUserExists){
-        $r->customer->password = passwordHash::hash($password);
-        $tabble_name = "customers_auth";
-        $column_names = array('phone', 'name', 'email', 'password', 'city', 'address');
-        $result = $db->insertIntoTable($r->customer, $column_names, $tabble_name);
+        //hash the password
+        $r->user->password = passwordHash::hash($password);
+        $table_name = "web_users";
+        $column_names = array('first_name', 'last_name', 'email', 'username', 'password');
+        //insert that ish
+        $result = $db->insertIntoTable($r->user, $column_names, $table_name);
         if ($result != NULL) {
+            //let the app know it's done
             $response["status"] = "success";
             $response["message"] = "User account created successfully";
-            $response["uid"] = $result;
+            $response["id"] = $result;
             if (!isset($_SESSION)) {
                 session_start();
             }
-            $_SESSION['uid'] = $response["uid"];
-            $_SESSION['phone'] = $phone;
-            $_SESSION['name'] = $name;
+            //start the session on this end
+            $_SESSION['id'] = $response["id"];
+            $_SESSION['first_name'] = $first_name;
+            $_SESSION['last_name'] = $last_name;
+            $_SESSION['username'] = $username;
             $_SESSION['email'] = $email;
             echoResponse(200, $response);
         } else {
+            //let the app know what's up
             $response["status"] = "error";
-            $response["message"] = "Failed to create customer. Please try again";
+            $response["message"] = "Failed to create user. Please try again";
             echoResponse(201, $response);
-        }            
+        }         
+    //you can't create two of the same user, dummy...   
     }else{
         $response["status"] = "error";
-        $response["message"] = "An user with the provided phone or email exists!";
+        $response["message"] = "A user with the provided email already exists!";
         echoResponse(201, $response);
+        echo var_dump($isUserExists);
     }
 });
 $app->get('/logout', function() {

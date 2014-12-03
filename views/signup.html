@@ -1,0 +1,45 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <form class="signupForm" name="signupForm" role="form">
+                <h3>Sign Up for Jungle Wood</h3>
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name:" ng-model="signup.first_name" required>
+                    <small class="text-warning" data-ng-show="signupForm.first_name.$dirty && signupForm.first_name.$error.required"> Enter a first name.</small>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input name="last_name" type="last_name" class="form-control" id="last_name" placeholder="Last Name:" ng-model="signup.last_name" required>
+                    <small class="text-warning" data-ng-show="signupForm.last_name.$dirty && signupForm.last_name.$error.required"> Enter a first name.</small>
+                </div>
+                <div class="form-group">
+                    <label for="first_name">Username</label>
+                    <input name="first_name" type="text" class="form-control" id="first_name" placeholder="Username:" ng-model="signup.username" required>
+                    <small class="text-warning" data-ng-show="signupForm.username.$dirty && signupForm.username.$error.required"> Enter your Minecraft username.</small>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input  name="email" type="email" class="form-control" id="email" placeholder="Email:" ng-model="signup.email" required focus>
+
+                    <small ng-show="signupForm.email.$error.email" class="text-warning">Email is not valid</small> 
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input name="password" type="password" class="form-control" id="password" placeholder="Password:" ng-model="signup.password" required>
+
+                    <small class="text-warning" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> Enter Password.</small>
+                </div>
+                <div class="form-group">
+                    <label for="password2">Confirm Password</label>
+                    <input name="password2" type="password" class="form-control" id="password2" placeholder="Confirm Password:" ng-model="signup.password2" required>
+                    <small class="text-warning" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.required"> Enter password again.</small>
+
+                    <small class="text-warning" data-ng-show="signupForm.password2.$dirty && signup.password2 !== signup.password"> Password do not match.</small>
+                </div>
+                <button type="submit" class="btn btn-primary" ng-click="signUp(signup)" data-ng-disabled="signupForm.$invalid">Submit</button>
+                <p>Already have an account? <a ui-sref="login">Log In!</a></p>
+            </form>
+        </div>
+    </div>
+</div>
