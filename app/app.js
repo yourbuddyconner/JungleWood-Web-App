@@ -36,6 +36,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 //ensures that the user is always logged in
 app.run(function ($rootScope, $state, Data) {
+    $rootScope.$on("$viewContentLoaded", function() {
+      $('.blur').blurjs({
+        source: 'body',
+        radius: 7,
+        overlay: 'rgba(255,255,255,0.4)'
+      });
+    });
+
     $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
         $rootScope.authenticated = false;
         var nextUrl = toState.name;
@@ -58,7 +66,7 @@ app.run(function ($rootScope, $state, Data) {
               $rootScope.email = results.email;
             } 
             else {
-              if (nextUrl == 'signup' || nextUrl == 'login') {} 
+              if (nextUrl == 'signup' || nextUrl == 'login' || nextUrl == 'home') {} 
               else {
                 event.preventDefault();
                 $state.go("login");

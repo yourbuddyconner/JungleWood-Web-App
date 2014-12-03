@@ -20,17 +20,6 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- Libs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-animate.js"></script>
-    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
-    <script src="js/toaster.js"></script>
-    <script src="js/blur.js"></script>
-    <script src="js/utility.js"></script>
-    <script src="app/services.js"></script>
-    <script src="app/directives.js"></script>
-    <script src="app/controllers.js"></script>
-    <script src="app/app.js"></script>
   </head>
 
   <body ng-app="JungleWood" style="background-image: url('images/default.jpg')">
@@ -101,8 +90,24 @@
       </div>
     </div>
     <div class="container" style="margin-top:75px;">
-      <div class="blur" ui-view></div>
+      <div ui-view></div>
     </div>
+    <div class="footer">
+      <div class="container text-center">
+        <p>Made with <i class="fa fa-heart heart"></i> by <a href="http://connerswann.me">Conner Swann</a></p>
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.11/angular-ui-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-animate.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.1.js"></script>
+    <script src="js/toaster.js"></script>
+    <script src="js/blur.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="app/services.js"></script>
+    <script src="app/directives.js"></script>
+    <script src="app/controllers.js"></script>
+    <script src="app/app.js"></script>
     </body>
   <toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
 </html>
